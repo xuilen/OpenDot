@@ -26,7 +26,7 @@
 | 每周在指定日期运行任务 | 打开「定时任务 → 创建任务 → 手动配置」，勾选执行日和时间。保存前可按服务器时区核对接下来三次触发。 |
 | 查看近期有哪些任务 | 打开「运行日程」，按设备当地日期查看每个任务已保存的下一次触发。 |
 
-本仓库由 xuilen 基于 OpenDot 的 `0689098` 源码快照发布，原项目标注为 `helsome/OpenDot`。项目保留 Miniclaw contributors 的版权声明，采用 [MIT 许可证](LICENSE)。
+本仓库由 xuilen 基于 OpenDot 的 `0689098` 源码快照发布。项目保留 Miniclaw contributors 的版权声明，采用 [MIT 许可证](LICENSE)。
 
 ## 产品定位
 

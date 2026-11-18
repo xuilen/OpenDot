@@ -3,44 +3,85 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f6fa">
-  <meta name="description" content="OpenDot 是可自托管的个人 AI 助手与团队工作台。在对话中找回工作记忆，把重复的事排进日程。">
-  <meta property="og:title" content="OpenDot · 个人 AI 助手与团队工作台">
-  <meta property="og:description" content="找回工作区记忆，安排每周任务，随时查看工作进展。">
+  <meta name="theme-color" content="#0c1620">
+  <meta name="description" content="探索 OpenDot 个人智能体工作台。让助手找回工作区记忆，安排每周任务，在手机上查看审批。">
+  <meta property="og:title" content="OpenDot · 个人智能体工作台">
+  <meta property="og:description" content="探索工作区对话、每周日程与跨设备审批。">
   <meta property="og:image" content="https://xuilen.github.io/OpenDot/media/conversation.png">
-  <title>OpenDot · 个人 AI 助手与团队工作台</title>
+  <title>OpenDot · 个人智能体工作台</title>
   <link rel="icon" href="media/icon.png">
   <link rel="stylesheet" href="style.css">
+  <script defer src="site.js"></script>
 </head>
 <body>
-  <header class="wrap">
-    <a class="brand" href="./"><img src="media/icon.png" width="34" height="34" alt="">OpenDot</a>
-    <nav aria-label="主导航"><a href="#start">快速开始</a><a href="https://github.com/xuilen/OpenDot">GitHub ↗</a></nav>
-  </header>
-  <main>
-    <section class="hero wrap">
-      <div><h1>让 Dot 记住决定，<br>按周接着做。</h1>
-      <p>OpenDot 是可自托管的个人 AI 助手与团队工作台。用对话交代任务，让助手找回相关记忆，在日程里查看下一次执行。</p>
-      <div class="actions"><a class="primary" href="#start">从源码开始 <span aria-hidden="true">↓</span></a><a href="https://github.com/xuilen/OpenDot/releases/latest">查看发行版 ↗</a></div></div>
-      <figure><a href="media/conversation.png" aria-label="查看桌面对话界面大图"><img src="media/conversation.png" alt="OpenDot 桌面对话界面，左侧是会话列表，右侧是当前对话"></a><figcaption>桌面端 · 工作区对话</figcaption></figure>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <div class="mast" id="top">
+    <header class="shell">
+      <a class="brand" href="#top"><img src="media/icon.png" alt="" width="34" height="34">OpenDot</a>
+      <nav aria-label="主导航"><a href="#tour">产品导览</a><a href="#features">功能</a><a class="repo" href="https://github.com/xuilen/OpenDot">GitHub ↗</a></nav>
+    </header>
+  </div>
+  <main id="main">
+    <div class="mast">
+    <section class="hero shell" aria-label="OpenDot 个人智能体工作台">
+      <div class="intro">
+        <p class="kicker"><i aria-hidden="true"></i> 可自托管的个人智能体工作台</p>
+        <h1>把事情交给 Dot<span>，</span><br>把决定留给你。</h1>
+        <p class="lede">从一句委托开始。让助手找回上次的决定，安排每周的工作，在需要你授权时，把请求送到工作台。</p>
+        <div class="actions"><a class="button" href="#tour">探索工作台 <b aria-hidden="true">↓</b></a><a class="text-link" href="#start">在本地启动 ↗</a></div>
+      </div>
+      <div class="art" aria-hidden="true">
+        <div class="halo"></div>
+        <div class="orbit o1"></div><div class="orbit o2"></div><div class="orbit o3"></div>
+        <div class="bot-shadow"></div>
+        <div class="bot"><div class="visor"><i></i><i></i></div></div>
+        <div class="spark s1"></div><div class="spark s2"></div><div class="spark s3"></div>
+      </div>
     </section>
-    <section class="details"><div class="wrap"><h2>在工作区里接续一件事</h2>
-      <div class="columns">
-        <article><h3>找回上次的决定</h3><p>在同一个工作区重新提问，Dot 会按问题检索已保存的记忆。聊天活动中可查看载入数量和修订号。</p></article>
-        <article><h3>把例行工作排进日程</h3><p>勾选每周执行日和时间，保存前预览接下来三次触发。运行日程按设备上的日期展示下一次执行。</p></article>
-        <article><h3>在手机上处理审批</h3><p>需要授权时，打开审批面板查看请求，再决定是否允许继续执行。<a href="media/approval.png">查看移动端界面 ↗</a></p></article>
-      </div></div>
-    </section>
-    <section id="start" class="start wrap"><div><h2>在本地启动 OpenDot</h2><p>准备 Git、Node.js 22.19 或更高版本、npm 和 GNU Make。使用容器模式时还需 Docker。</p><p>启动后打开 <code>http://127.0.0.1:3000</code>，按页面引导创建管理员并配置模型服务。</p><a href="https://github.com/xuilen/OpenDot#快速开始">完整安装说明 ↗</a></div>
-      <pre aria-label="安装与启动命令"><code>git clone https://github.com/xuilen/OpenDot.git
+    </div>
+  <section id="tour" class="tour shell" aria-labelledby="tour-title">
+    <div class="section-head"><div><p class="eyebrow">产品导览</p><h2 id="tour-title">打开你的工作台。</h2></div><p>从对话进入工作现场，查看进行中的目标，<br class="wide">处理等待你决定的请求。</p></div>
+    <div class="viewer">
+      <div class="viewer-bar"><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><span>OpenDot Workspace</span><a id="full-image" href="media/conversation.png">查看大图 ↗</a></div>
+      <div class="tour-grid">
+        <div class="screen"><img id="preview" src="media/conversation.png" alt="桌面端的工作区对话界面" width="1440" height="900"></div>
+        <div class="views" aria-label="选择界面截图">
+          <a class="view selected" aria-current="true" href="media/conversation.png" data-alt="桌面端的工作区对话界面"><span>工作区对话</span><small>在同一个会话里交代事项、追问进展。</small></a>
+          <a class="view" href="media/work.png" data-alt="工作页中的待处理事项与目标"><span>工作与目标</span><small>集中查看待处理事项，接续已有目标。</small></a>
+          <a class="view" href="media/desktop-approval.png" data-alt="桌面会话侧栏的审批请求详情"><span>权限审批</span><small>展开请求详情，决定是否允许执行。</small></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="features shell" id="features" aria-labelledby="features-title">
+    <div class="section-head"><div><p class="eyebrow">日常使用</p><h2 id="features-title">让工作前后连贯。</h2></div></div>
+    <div class="cards">
+      <article class="card memory"><h3>找回工作记忆</h3><p>新对话会按当前问题检索同一工作区的记忆，并在聊天活动中记录载入情况。</p>
+        <div class="memory-demo"><div class="question">差旅报销需要什么发票？</div><div class="trace"></div><div class="match"><small>匹配到的记忆示例</small><strong>报销时附上电子发票。</strong></div></div>
+        <a href="https://github.com/xuilen/OpenDot/blob/main/docs/workspace-memory-v2.md">了解记忆检索 ↗</a></article>
+      <article class="card calendar"><h3>安排每周任务</h3><p>选择执行日和时间，按服务器时区预览接下来三次触发，再保存任务。</p>
+        <div class="schedule"><div><small>日程示例</small><strong>09:00</strong></div><div class="week" aria-label="每周一、三、五执行"><span class="on">一</span><span>二</span><span class="on">三</span><span>四</span><span class="on">五</span><span>六</span><span>日</span></div></div>
+        <a href="https://github.com/xuilen/OpenDot#这个版本有哪些改进">查看日程用法 ↗</a></article>
+      <article class="card phone"><h3>在手机上审批</h3><p>离开桌面时，仍可打开会话查看请求的操作和权限。</p><a href="media/approval.png">放大手机界面 ↗</a>
+        <div class="device"><img src="media/approval.png" loading="lazy" alt="手机端展开的审批面板"></div></article>
+    </div>
+  </section>
+  <section class="install" id="start" aria-labelledby="start-title"><div class="shell install-grid">
+    <div><p class="eyebrow">快速开始</p><h2 id="start-title">在自己的设备上<br>启动 OpenDot。</h2>
+      <p>准备 Git、Node.js 22.19 或更高版本、npm 和 GNU Make。容器模式还需 Docker。启动后访问 <code>http://127.0.0.1:3000</code> 完成初始化。</p>
+      <div class="actions"><a class="button" href="https://github.com/xuilen/OpenDot/releases/latest">获取源码 ↗</a><a class="text-link" href="https://github.com/xuilen/OpenDot#快速开始">安装文档 ↗</a></div>
+    </div>
+    <div class="terminal"><div class="terminal-bar"><span>Terminal</span><button hidden type="button" id="copy">复制命令</button></div><pre tabindex="0" aria-label="安装与启动命令"><code id="commands">git clone https://github.com/xuilen/OpenDot.git
 cd OpenDot
+
 npm install
 npm --prefix web install
 npm --prefix container/agent-runner install
+
 npm run build:all
-npm start</code></pre>
-    </section>
+npm start</code></pre><span class="sr" id="copy-status" role="status"></span></div>
+  </div></section>
   </main>
-  <footer class="wrap"><span>OpenDot · xuilen 发行版</span><a href="https://github.com/xuilen/OpenDot/blob/main/LICENSE">MIT · Miniclaw contributors</a></footer>
+  <footer class="shell"><a class="brand" href="#top"><img src="media/icon.png" width="28" height="28" alt="">OpenDot</a><a href="https://github.com/xuilen/OpenDot/blob/main/LICENSE">MIT · Miniclaw contributors</a></footer>
 </body>
 </html>
