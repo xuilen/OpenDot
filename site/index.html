@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6fa">
+  <meta name="description" content="OpenDot 是可自托管的个人 AI 助手与团队工作台。在对话中找回工作记忆，把重复的事排进日程。">
+  <meta property="og:title" content="OpenDot · 个人 AI 助手与团队工作台">
+  <meta property="og:description" content="找回工作区记忆，安排每周任务，随时查看工作进展。">
+  <meta property="og:image" content="https://xuilen.github.io/OpenDot/media/conversation.png">
+  <title>OpenDot · 个人 AI 助手与团队工作台</title>
+  <link rel="icon" href="media/icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="./"><img src="media/icon.png" width="34" height="34" alt="">OpenDot</a>
+    <nav aria-label="主导航"><a href="#start">快速开始</a><a href="https://github.com/xuilen/OpenDot">GitHub ↗</a></nav>
+  </header>
+  <main>
+    <section class="hero wrap">
+      <div><h1>让 Dot 记住决定，<br>按周接着做。</h1>
+      <p>OpenDot 是可自托管的个人 AI 助手与团队工作台。用对话交代任务，让助手找回相关记忆，在日程里查看下一次执行。</p>
+      <div class="actions"><a class="primary" href="#start">从源码开始 <span aria-hidden="true">↓</span></a><a href="https://github.com/xuilen/OpenDot/releases/latest">查看发行版 ↗</a></div></div>
+      <figure><a href="media/conversation.png" aria-label="查看桌面对话界面大图"><img src="media/conversation.png" alt="OpenDot 桌面对话界面，左侧是会话列表，右侧是当前对话"></a><figcaption>桌面端 · 工作区对话</figcaption></figure>
+    </section>
+    <section class="details"><div class="wrap"><h2>在工作区里接续一件事</h2>
+      <div class="columns">
+        <article><h3>找回上次的决定</h3><p>在同一个工作区重新提问，Dot 会按问题检索已保存的记忆。聊天活动中可查看载入数量和修订号。</p></article>
+        <article><h3>把例行工作排进日程</h3><p>勾选每周执行日和时间，保存前预览接下来三次触发。运行日程按设备上的日期展示下一次执行。</p></article>
+        <article><h3>在手机上处理审批</h3><p>需要授权时，打开审批面板查看请求，再决定是否允许继续执行。<a href="media/approval.png">查看移动端界面 ↗</a></p></article>
+      </div></div>
+    </section>
+    <section id="start" class="start wrap"><div><h2>在本地启动 OpenDot</h2><p>准备 Git、Node.js 22.19 或更高版本、npm 和 GNU Make。使用容器模式时还需 Docker。</p><p>启动后打开 <code>http://127.0.0.1:3000</code>，按页面引导创建管理员并配置模型服务。</p><a href="https://github.com/xuilen/OpenDot#快速开始">完整安装说明 ↗</a></div>
+      <pre aria-label="安装与启动命令"><code>git clone https://github.com/xuilen/OpenDot.git
+cd OpenDot
+npm install
+npm --prefix web install
+npm --prefix container/agent-runner install
+npm run build:all
+npm start</code></pre>
+    </section>
+  </main>
+  <footer class="wrap"><span>OpenDot · xuilen 发行版</span><a href="https://github.com/xuilen/OpenDot/blob/main/LICENSE">MIT · Miniclaw contributors</a></footer>
+</body>
+</html>

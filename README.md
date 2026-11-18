@@ -10,12 +10,23 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/helsome/OpenDot">GitHub</a> ·
+  <a href="https://xuilen.github.io/OpenDot/">项目主页</a> ·
+  <a href="https://github.com/xuilen/OpenDot/releases/latest">源码发行版</a> ·
   <a href="DESIGN.md">设计规范</a> ·
   <a href="docs/API.md">API</a> ·
   <a href="docs/ACL-MATRIX.md">权限模型</a> ·
   <a href="SECURITY.md">安全策略</a>
 </p>
+
+## 这个版本有哪些改进
+
+| 我想做什么 | 在 OpenDot 中怎样操作 |
+| --- | --- |
+| 在新对话里找回之前的决定 | 把决定保存在工作区记忆中。下次在同一工作区提问时，助手会按问题匹配记忆，可在聊天活动中查看载入数量。 |
+| 每周在指定日期运行任务 | 打开「定时任务 → 创建任务 → 手动配置」，勾选执行日和时间。保存前可按服务器时区核对接下来三次触发。 |
+| 查看近期有哪些任务 | 打开「运行日程」，按设备当地日期查看每个任务已保存的下一次触发。 |
+
+本仓库由 xuilen 基于 OpenDot 的 `0689098` 源码快照发布，原项目标注为 `helsome/OpenDot`。项目保留 Miniclaw contributors 的版权声明，采用 [MIT 许可证](LICENSE)。
 
 ## 产品定位
 
@@ -146,7 +157,7 @@ Web Client / Electron Desktop / Message Channels
 ### 启动 Backend 与 Web Client
 
 ```bash
-git clone https://github.com/helsome/OpenDot.git
+git clone https://github.com/xuilen/OpenDot.git
 cd OpenDot
 
 npm install

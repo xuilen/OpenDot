@@ -1,0 +1,38 @@
+:root { color-scheme: light; font-family: Inter, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; color: #15243b; background: #f4f6fa; }
+* { box-sizing: border-box; }
+body, figure { margin: 0; }
+body { line-height: 1.65; }
+a { color: #164cac; text-underline-offset: .22em; }
+a:focus-visible { outline: 3px solid #377ae3; outline-offset: 4px; }
+.wrap { width: min(1200px, 90%); margin-inline: auto; }
+header, footer, nav, .brand, .actions { display: flex; align-items: center; }
+header, footer { justify-content: space-between; }
+header { padding: 20px 0; border-bottom: 1px solid #cfd9e5; }
+nav, .actions { gap: 24px; }
+nav a, .brand, .actions a { text-decoration: none; font-weight: 650; }
+.brand { gap: 10px; color: #15243b; font-size: 22px; }
+.hero, .start { display: grid; align-items: center; gap: clamp(24px, 4vw, 60px); padding-block: clamp(48px, 7vw, 96px); }
+.hero { grid-template-columns: 4fr 6fr; }
+h1, h2, h3 { margin: 0; line-height: 1.22; }
+h1 { font-size: clamp(38px, 4.2vw, 66px); letter-spacing: -.05em; }
+h2 { font-size: clamp(25px, 3vw, 38px); }
+h3 { font-size: 21px; }
+p, figcaption { color: #465974; }
+.hero p { font-size: 18px; margin: 22px 0 30px; }
+.primary { background: #2056bd; color: white; padding: 10px 17px; border-radius: 8px; }
+figure img { display: block; width: 100%; border-radius: 10px; border: 1px solid #a8b7cc; box-shadow: 0 16px 32px #182c4c1a; }
+figcaption { font-size: 13px; margin-top: 12px; }
+.details { background: #142842; color: white; padding-block: 56px; }
+.details p { color: #d0dce9; margin-bottom: 0; }
+.details a { display: inline-block; color: #b3d6ff; }
+.columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 32px; }
+article { border-top: 2px solid #628dc7; padding-top: 18px; }
+.start { grid-template-columns: 1fr 1.1fr; }
+pre { min-width: 0; overflow-x: auto; background: #e5ebf4; border-radius: 12px; padding: 24px; line-height: 1.8; margin: 0; }
+footer { border-top: 1px solid #cfd9e5; padding-block: 20px; font-size: 14px; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 780px) {
+  .hero, .start, .columns { grid-template-columns: minmax(0, 1fr); }
+  nav, .actions { gap: 16px; }
+  .columns { gap: 24px; }
+  pre { padding: 16px; font-size: 13px; }
+}
