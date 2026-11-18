@@ -5,28 +5,7 @@ import { extractErrorMessage } from '../../utils/error';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
-const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-const weekOrder = [1, 2, 3, 4, 5, 6, 0];
-
-// Only project expressions this editor can round-trip. Advanced expressions
-// stay in their original spelling until the user changes them.
-function readWeekly(value: string) {
-  const match =
-    /^(\d{1,2})\s+(\d{1,2})\s+\*\s+\*\s+(\*|1-5|[0-7](?:,[0-7])*)$/.exec(
-      value.trim(),
-    );
-  if (!match || Number(match[1]) > 59 || Number(match[2]) > 23) return null;
-  const days =
-    match[3] === '*'
-      ? weekOrder
-      : match[3] === '1-5'
-        ? weekOrder.slice(0, 5)
-        : match[3].split(',').map((day) => Number(day) % 7);
-  return {
-    time: match[2].padStart(2, '0') + ':' + match[1].padStart(2, '0'),
-    days,
-  };
-}
+import { weekdays, weekOrder, readWeekly } from '../../utils/task-utils';
 
 type Preview = { timezone: string; occurrences: string[] };
 

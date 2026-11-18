@@ -29,7 +29,50 @@ export function groupTasksByNextRun(tasks: ScheduledTask[], timezone: string) {
   }));
 }
 
+export const weekdays = [
+  '周日',
+  '周一',
+  '周二',
+  '周三',
+  '周四',
+  '周五',
+  '周六',
+];
+export const weekOrder = [1, 2, 3, 4, 5, 6, 0];
+
+// Only project expressions this editor can round-trip. Advanced expressions
+// stay in their original spelling until the user changes them.
+export function readWeekly(value: string) {
+  const match =
+    /^(\d{1,2})\s+(\d{1,2})\s+\*\s+\*\s+(\*|1-5|[0-7](?:,[0-7])*)$/.exec(
+      value.trim(),
+    );
+  if (!match || Number(match[1]) > 59 || Number(match[2]) > 23) return null;
+  const days =
+    match[3] === '*'
+      ? weekOrder
+      : match[3] === '1-5'
+        ? weekOrder.slice(0, 5)
+        : match[3].split(',').map((day) => Number(day) % 7);
+  return {
+    time: match[2].padStart(2, '0') + ':' + match[1].padStart(2, '0'),
+    days,
+  };
+}
+
+export function describeCron(value: string): string {
+  const weekly = readWeekly(value);
+  if (!weekly) return value;
+  const days = weekOrder.filter((day) => weekly.days.includes(day));
+  let label = days.map((day) => weekdays[day]).join('、');
+  if (days.length === 7) label = '每天';
+  else if (days.join(',') === '1,2,3,4,5') label = '周一至周五';
+  return label + ' ' + weekly.time;
+}
+
 export const INTERVAL_UNITS = [
+  { label: '毫秒', ms: 1 },
+  { label: '秒', ms: 1000 },
   { label: '分钟', ms: 60_000 },
   { label: '小时', ms: 3_600_000 },
   { label: '天', ms: 86_400_000 },
@@ -45,29 +88,37 @@ export const CHANNEL_OPTIONS = [
   { key: 'whatsapp', label: 'WhatsApp' },
 ] as const;
 
-/** Format interval milliseconds to human-readable string (e.g. "5 分钟"). */
-export function formatInterval(ms: string | number): string {
-  const n = typeof ms === 'string' ? parseInt(ms, 10) : ms;
-  if (isNaN(n) || n <= 0) return String(ms);
-  if (n % 86_400_000 === 0) return `${n / 86_400_000} 天`;
-  if (n % 3_600_000 === 0) return `${n / 3_600_000} 小时`;
-  if (n % 60_000 === 0) return `${n / 60_000} 分钟`;
-  return `${n} 毫秒`;
+/** Pick the largest unit that can represent the stored duration exactly. */
+export function decomposeInterval(ms: string): { num: string; unitMs: string } {
+  const n = Number(ms);
+  if (!Number.isSafeInteger(n) || n <= 0) return { num: '', unitMs: '60000' };
+  for (let i = INTERVAL_UNITS.length - 1; i >= 0; i--) {
+    const unit = INTERVAL_UNITS[i];
+    if (n % unit.ms === 0)
+      return { num: String(n / unit.ms), unitMs: String(unit.ms) };
+  }
+  return { num: '', unitMs: '60000' };
 }
 
-/** Decompose milliseconds into {number, unitMs} picking the largest clean unit. */
-export function decomposeInterval(ms: string): { num: string; unitMs: string } {
-  const n = parseInt(ms, 10);
-  if (isNaN(n) || n <= 0) return { num: '', unitMs: '60000' };
-  for (let i = INTERVAL_UNITS.length - 1; i >= 0; i--) {
-    if (n % INTERVAL_UNITS[i].ms === 0) {
-      return {
-        num: String(n / INTERVAL_UNITS[i].ms),
-        unitMs: String(INTERVAL_UNITS[i].ms),
-      };
-    }
-  }
-  return { num: String(n / 60_000), unitMs: '60000' };
+export function formatInterval(ms: string | number): string {
+  const { num, unitMs } = decomposeInterval(String(ms));
+  if (!num) return String(ms);
+  const unit = INTERVAL_UNITS.find((option) => String(option.ms) === unitMs)!;
+  return num + ' ' + unit.label;
+}
+
+export const INTERVAL_HINT = '请输入正整数，执行间隔须在 1 分钟至 365 天之间';
+
+export function intervalMilliseconds(
+  amount: string,
+  unit: string,
+): string | null {
+  const value = amount.trim();
+  if (!/^\d+$/.test(value)) return null;
+  const ms = Number(value) * Number(unit);
+  return Number.isSafeInteger(ms) && ms >= 60_000 && ms <= 365 * 86_400_000
+    ? String(ms)
+    : null;
 }
 
 export function formatTaskStatus(

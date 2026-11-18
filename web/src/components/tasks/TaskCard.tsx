@@ -18,6 +18,7 @@ import { showToast } from '../../utils/toast';
 import {
   formatContextMode,
   formatInterval,
+  describeCron,
   formatTaskStatus,
 } from '../../utils/task-utils';
 
@@ -178,7 +179,8 @@ export function TaskCard({
                 {formatContextMode(task.context_mode)}
               </span>
               <span className="text-xs text-muted-foreground">
-                {task.schedule_type === 'cron' && task.schedule_value}
+                {task.schedule_type === 'cron' &&
+                  describeCron(task.schedule_value)}
                 {task.schedule_type === 'interval' &&
                   `每 ${formatInterval(task.schedule_value)}`}
                 {task.schedule_type === 'once' && '单次执行'}

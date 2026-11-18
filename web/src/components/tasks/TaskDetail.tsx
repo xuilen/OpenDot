@@ -7,6 +7,9 @@ import type { ApiError } from '../../api/client';
 import { showToast } from '../../utils/toast';
 import {
   INTERVAL_UNITS,
+  INTERVAL_HINT,
+  describeCron,
+  intervalMilliseconds,
   formatContextMode,
   formatInterval,
   decomposeInterval,
@@ -191,8 +194,11 @@ export function TaskDetail({ task }: TaskDetailProps) {
 
   // Interval editing: decompose ms into number + unit
   const initialInterval = useMemo(
-    () => decomposeInterval(task.schedule_value),
-    [task.schedule_value],
+    () =>
+      decomposeInterval(
+        task.schedule_type === 'interval' ? task.schedule_value : '',
+      ),
+    [task.schedule_type, task.schedule_value],
   );
   const [intervalNum, setIntervalNum] = useState(initialInterval.num);
   const [intervalUnit, setIntervalUnit] = useState(initialInterval.unitMs);
@@ -212,11 +218,10 @@ export function TaskDetail({ task }: TaskDetailProps) {
           : (task.execution_mode ?? 'container')) as TaskExecutionMode,
         context_mode: task.context_mode,
       });
-      const decomposed = decomposeInterval(task.schedule_value);
-      setIntervalNum(decomposed.num);
-      setIntervalUnit(decomposed.unitMs);
+      setIntervalNum(initialInterval.num);
+      setIntervalUnit(initialInterval.unitMs);
     }
-  }, [task, editing]);
+  }, [task, editing, initialInterval]);
 
   const handleSave = async () => {
     setSaving(true);
@@ -227,11 +232,20 @@ export function TaskDetail({ task }: TaskDetailProps) {
         fields.script_command = editForm.script_command || null;
       if (editForm.schedule_type !== task.schedule_type)
         fields.schedule_type = editForm.schedule_type;
-      // For interval type, compute ms from number + unit
-      const effectiveValue =
-        editForm.schedule_type === 'interval' && intervalNum
-          ? String(parseInt(intervalNum, 10) * parseInt(intervalUnit, 10))
-          : editForm.schedule_value;
+      let effectiveValue = editForm.schedule_value;
+      if (editForm.schedule_type === 'interval') {
+        const intervalChanged =
+          task.schedule_type !== 'interval' ||
+          intervalNum !== initialInterval.num ||
+          intervalUnit !== initialInterval.unitMs;
+        if (intervalChanged) {
+          const ms = intervalMilliseconds(intervalNum, intervalUnit);
+          if (!ms) throw new Error(INTERVAL_HINT);
+          effectiveValue = ms;
+        } else {
+          effectiveValue = task.schedule_value;
+        }
+      }
       if (effectiveValue !== task.schedule_value)
         fields.schedule_value = effectiveValue;
       // notify_channels: compare serialized
@@ -274,21 +288,6 @@ export function TaskDetail({ task }: TaskDetailProps) {
   };
 
   const handleCancel = () => {
-    setEditForm({
-      prompt: task.prompt,
-      script_command: task.script_command || '',
-      schedule_type: task.schedule_type,
-      schedule_value: task.schedule_value,
-      notify_channels: task.notify_channels ?? null,
-      chat_jid: task.chat_jid,
-      execution_mode: (task.execution_type === 'script'
-        ? 'host'
-        : (task.execution_mode ?? 'container')) as TaskExecutionMode,
-      context_mode: task.context_mode,
-    });
-    const decomposed = decomposeInterval(task.schedule_value);
-    setIntervalNum(decomposed.num);
-    setIntervalUnit(decomposed.unitMs);
     setEditing(false);
   };
 
@@ -512,12 +511,18 @@ export function TaskDetail({ task }: TaskDetailProps) {
           {editing ? (
             <select
               value={editForm.schedule_type}
-              onChange={(e) =>
+              onChange={(e) => {
+                const schedule_type = e.target
+                  .value as ScheduledTask['schedule_type'];
                 setEditForm({
                   ...editForm,
-                  schedule_type: e.target.value as 'cron' | 'interval' | 'once',
-                })
-              }
+                  schedule_type,
+                  schedule_value:
+                    schedule_type === task.schedule_type
+                      ? task.schedule_value
+                      : '',
+                });
+              }}
               className="w-full text-sm text-foreground bg-card px-2 py-1 rounded border border-border focus:outline-none focus:ring-1 focus:ring-primary"
             >
               <option value="cron">Cron 表达式</option>
@@ -537,7 +542,7 @@ export function TaskDetail({ task }: TaskDetailProps) {
           <div className="text-xs text-muted-foreground mb-1">
             {scheduleLabel()}
           </div>
-          {editing && isAdmin ? (
+          {editing ? (
             <>
               {editForm.schedule_type === 'interval' ? (
                 <div className="flex gap-2">
@@ -582,9 +587,15 @@ export function TaskDetail({ task }: TaskDetailProps) {
           ) : (
             <div className="text-sm text-foreground">
               {task.schedule_type === 'cron' ? (
-                <code className="text-xs bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
-                  {task.schedule_value}
-                </code>
+                <div className="space-y-1">
+                  {describeCron(task.schedule_value) !==
+                    task.schedule_value && (
+                    <p>{describeCron(task.schedule_value)}（服务器时区）</p>
+                  )}
+                  <code className="text-xs bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
+                    {task.schedule_value}
+                  </code>
+                </div>
               ) : (
                 formatScheduleValue(task.schedule_type, task.schedule_value)
               )}

@@ -16,6 +16,8 @@ import { api } from '../../api/client';
 import { showToast } from '../../utils/toast';
 import {
   INTERVAL_UNITS,
+  INTERVAL_HINT,
+  intervalMilliseconds,
   CHANNEL_OPTIONS,
   toggleNotifyChannel,
 } from '../../utils/task-utils';
@@ -253,6 +255,7 @@ export function CreateTaskForm({
   };
 
   // --- Manual mode handlers ---
+  const intervalMs = intervalMilliseconds(intervalNumber, intervalUnit);
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     if (isScript) {
@@ -275,13 +278,7 @@ export function CreateTaskForm({
         newErrors.scheduleValue = '请输入 Cron 表达式';
       }
     } else if (formData.scheduleType === 'interval') {
-      if (!intervalNumber.trim()) {
-        newErrors.scheduleValue = '请输入间隔数值';
-      } else {
-        const num = parseInt(intervalNumber);
-        if (isNaN(num) || num <= 0)
-          newErrors.scheduleValue = '间隔必须是正整数';
-      }
+      if (!intervalMs) newErrors.scheduleValue = INTERVAL_HINT;
     } else if (formData.scheduleType === 'once') {
       if (!onceDateTime) {
         newErrors.scheduleValue = '请选择执行时间';
@@ -301,9 +298,8 @@ export function CreateTaskForm({
     if (!validateForm()) return;
     let finalScheduleValue = formData.scheduleValue;
     if (formData.scheduleType === 'interval') {
-      finalScheduleValue = String(
-        parseInt(intervalNumber, 10) * parseInt(intervalUnit, 10),
-      );
+      if (!intervalMs) return;
+      finalScheduleValue = intervalMs;
     } else if (formData.scheduleType === 'once') {
       finalScheduleValue = new Date(onceDateTime).toISOString();
     }
@@ -683,7 +679,7 @@ export function CreateTaskForm({
                     </Select>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    设置任务执行间隔
+                    执行间隔范围为 1 分钟至 365 天
                   </p>
                 </>
               )}
